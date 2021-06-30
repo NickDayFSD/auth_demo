@@ -38,5 +38,25 @@ describe('Auth routes', () => {
     });
   });
 
+  it('logs a user in via POST', async() => {
+    await request(app)
+      .post('/api/v1/auth/signup')
+      .send(usr3);
 
+    await request(app)
+      .post('/api/v1/auth/signup')
+      .send(usr2);
+
+    const res = await request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'dude@yes.com',
+        password: 'numbersonly'
+      });
+
+    expect(res.body).toEqual({
+      ...usr2,
+      id: '2'
+    });
+  });
 });
