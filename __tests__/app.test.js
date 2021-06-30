@@ -55,8 +55,9 @@ describe('Auth routes', () => {
       });
 
     expect(res.body).toEqual({
-      ...usr2,
-      id: '2'
+      id: '2',
+      email: 'dude@yes.com',
+      profilePhotoUrl: 'cranberry'
     });
   });
 });
