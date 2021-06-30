@@ -3,6 +3,7 @@ import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
+const agent = request.agent(app);
 
 const usr1 = {
   email: 'dude@no.com',
@@ -48,7 +49,7 @@ describe('Auth routes', () => {
       .post('/api/v1/auth/signup')
       .send(usr2);
 
-    const res = await request(app)
+    const res = await agent
       .post('/api/v1/auth/login')
       .send({
         email: 'dude@yes.com',
@@ -64,12 +65,26 @@ describe('Auth routes', () => {
 });
 
 describe('Tardy routes', () => {
-  beforeAll(() => {
-    return setup(pool);
+  beforeAll(async () => {
+    setup(pool);
+
+    await request(app)
+      .post('/api/v1/auth/signup')
+      .send(usr1);
+
+    await request(app)
+      .post('/api/v1/auth/signup')
+      .send(usr2);
+
+    await request(app)
+      .post('/api/v1/auth/signup')
+      .send(usr3);
+
+    return;
   });
 
   it('Creates a tardy via POST', async() => {
-    const res = await request(app)
+    const res = await agent
       .post('/api/v1/tardys')
       .send({
         photoUrl: 'http://photo',
@@ -79,7 +94,7 @@ describe('Tardy routes', () => {
 
     expect(res.body).toEqual({
       id: '1',
-      userId: '1',
+      userId: '2',
       photoUrl: 'http://photo',
       caption: 'Look at my tardy!',
       tags: ['http', 'url', 'photo']
