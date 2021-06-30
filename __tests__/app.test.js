@@ -132,4 +132,17 @@ describe('Tardy routes', () => {
     ]);
   });
 
+  it('GETs a tardy by id', async() => {
+    const res = await agent
+      .get('/api/v1/tardys/1');
+
+    expect(res.body).toEqual({
+      id: '1',
+      userId: '2',
+      photoUrl: 'http://photo',
+      caption: 'Look at my tardy!',
+      tags: ['http', 'url', 'photo']
+    });
+  });
+
 });
