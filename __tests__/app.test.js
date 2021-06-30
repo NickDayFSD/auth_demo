@@ -2,6 +2,7 @@ import pool from '../lib/utils/pool.js';
 import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
+import Tardy from '../lib/models/Tardy.js';
 
 const agent = request.agent(app);
 
@@ -99,6 +100,34 @@ describe('Tardy routes', () => {
       caption: 'Look at my tardy!',
       tags: ['http', 'url', 'photo']
     });
+  });
+
+  it('GETs all tardys', async() => {
+    await Tardy.insert ({
+      photoUrl: 'http://gif',
+      caption: 'Look at my animated tardy!',
+      tags: ['http', 'url', 'gif']
+    });
+
+    const res = await agent
+      .get('/api/v1/tardys');
+
+    expect(res.body).toEqual([
+      {
+        id: '1',
+        userId: '2',
+        photoUrl: 'http://photo',
+        caption: 'Look at my tardy!',
+        tags: ['http', 'url', 'photo']
+      },
+      {
+        id: '2',
+        userId: '2',
+        photoUrl: 'http://gif',
+        caption: 'Look at my animated tardy!',
+        tags: ['http', 'url', 'gif']
+      }
+    ]);
   });
 
 });
