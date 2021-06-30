@@ -3,7 +3,7 @@ import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
-describe('demo routes', () => {
+describe('Auth routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -13,12 +13,14 @@ describe('demo routes', () => {
       .post('/api/v1/auth/signup')
       .send({
         email: 'dude@no.com',
-        password: 'passaword'
+        password: 'passaword',
+        profilePhotoUrl: 'shapoop'
       });
     
     expect(res.body).toEqual({
       id: '1',
-      email: 'dude@no.com'
+      email: 'dude@no.com',
+      profilePhotoUrl: 'shapoop'
     });
   });
 });
