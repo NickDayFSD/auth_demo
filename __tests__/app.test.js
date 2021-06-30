@@ -3,28 +3,29 @@ import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
+
+const usr1 = {
+  email: 'dude@no.com',
+  password: 'passaword',
+  profilePhotoUrl: 'shapoop'
+};
+
+const usr2 = {
+  email: 'dude@yes.com',
+  password: 'numbersonly',
+  profilePhotoUrl: 'cranberry'
+};
+
+const usr3 = {
+  email: 'coffee@no.com',
+  password: 'beans',
+  profilePhotoUrl: 'morebeans'
+};
+
 describe('Auth routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
-
-  const usr1 = {
-    email: 'dude@no.com',
-    password: 'passaword',
-    profilePhotoUrl: 'shapoop'
-  };
-
-  const usr2 = {
-    email: 'dude@yes.com',
-    password: 'numbersonly',
-    profilePhotoUrl: 'cranberry'
-  };
-
-  const usr3 = {
-    email: 'coffee@no.com',
-    password: 'beans',
-    profilePhotoUrl: 'morebeans'
-  };
 
   it('signs up a user via POST', async() => {
     const res = await request(app)
@@ -60,4 +61,29 @@ describe('Auth routes', () => {
       profilePhotoUrl: 'cranberry'
     });
   });
+});
+
+describe('Tardy routes', () => {
+  beforeAll(() => {
+    return setup(pool);
+  });
+
+  it('Creates a tardy via POST', async() => {
+    const res = await request(app)
+      .post('/api/v1/tardys')
+      .send({
+        photoUrl: 'http://photo',
+        caption: 'Look at my tardy!',
+        tags: ['http', 'url', 'photo']
+      });
+
+    expect(res.body).toEqual({
+      id: '1',
+      userId: '1',
+      photoUrl: 'http://photo',
+      caption: 'Look at my tardy!',
+      tags: ['http', 'url', 'photo']
+    });
+  });
+
 });
