@@ -144,7 +144,7 @@ describe('Tardy routes', () => {
     });
   });
 
-  it('PATCHes a tardy by id', async() => {
+  it.skip('PATCHes a tardy by id', async() => {
     const firstPost = await agent.get('/api/v1/tardys/1');
 
     firstPost.caption = 'That caption needed replacing';
@@ -162,7 +162,18 @@ describe('Tardy routes', () => {
     });
   });
 
-  
+  it('DELETEs a tardy by id', async() => {
+    const res = await agent
+      .delete('/api/v1/tardys/1');
+
+    expect(res.body).toEqual({
+      id: '1',
+      userId: '2',
+      photoUrl: 'http://photo',
+      caption: 'That caption needed replacing',
+      tags: ['http', 'url', 'photo']
+    });
+  });
 
 });
 
