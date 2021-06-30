@@ -2,7 +2,6 @@ import pool from '../lib/utils/pool.js';
 import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
-import Tardy from '../lib/models/Tardy.js';
 
 const agent = request.agent(app);
 
@@ -143,6 +142,34 @@ describe('Tardy routes', () => {
       caption: 'Look at my tardy!',
       tags: ['http', 'url', 'photo']
     });
+  });
+
+  it('PATCHes a tardy by id', async() => {
+    const firstPost = await agent.get('/api/v1/tardys/1');
+
+    firstPost.caption = 'That caption needed replacing';
+
+    const res = await agent
+      .patch(`/api/v1/tardys/${firstPost.id}`)
+      .send(firstPost);
+
+    expect(res.body).toEqual({
+      id: '1',
+      userId: '2',
+      photoUrl: 'http://photo',
+      caption: 'That caption needed replacing',
+      tags: ['http', 'url', 'photo']
+    });
+  });
+
+  
+
+});
+
+describe.skip('Comment routes', () => {
+
+  it('Comments on a tardy via POST', async() => {
+
   });
 
 });
