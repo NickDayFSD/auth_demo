@@ -103,11 +103,13 @@ describe('Tardy routes', () => {
   });
 
   it('GETs all tardys', async() => {
-    await Tardy.insert ({
-      photoUrl: 'http://gif',
-      caption: 'Look at my animated tardy!',
-      tags: ['http', 'url', 'gif']
-    });
+    await agent
+      .post('/api/v1/tardys')
+      .send({
+        photoUrl: 'http://gif',
+        caption: 'Look at my animated tardy!',
+        tags: ['http', 'url', 'gif']
+      });
 
     const res = await agent
       .get('/api/v1/tardys');
