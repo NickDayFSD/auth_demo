@@ -8,14 +8,28 @@ describe('Auth routes', () => {
     return setup(pool);
   });
 
+  const usr1 = {
+    email: 'dude@no.com',
+    password: 'passaword',
+    profilePhotoUrl: 'shapoop'
+  };
+
+  const usr2 = {
+    email: 'dude@yes.com',
+    password: 'numbersonly',
+    profilePhotoUrl: 'cranberry'
+  };
+
+  const usr3 = {
+    email: 'coffee@no.com',
+    password: 'beans',
+    profilePhotoUrl: 'morebeans'
+  };
+
   it('signs up a user via POST', async() => {
     const res = await request(app)
       .post('/api/v1/auth/signup')
-      .send({
-        email: 'dude@no.com',
-        password: 'passaword',
-        profilePhotoUrl: 'shapoop'
-      });
+      .send(usr1);
     
     expect(res.body).toEqual({
       id: '1',
@@ -23,4 +37,6 @@ describe('Auth routes', () => {
       profilePhotoUrl: 'shapoop'
     });
   });
+
+
 });
