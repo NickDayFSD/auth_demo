@@ -15,6 +15,7 @@ CREATE TABLE tardys (
   tags VARCHAR(255) [] NOT NULL
 );
 CREATE TABLE comments (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   comment_by BIGINT REFERENCES users(id),
   tardy BIGINT REFERENCES tardys(id),
   comment VARCHAR(255) NOT NULL
