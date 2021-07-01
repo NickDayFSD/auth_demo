@@ -16,6 +16,6 @@ CREATE TABLE tardys (
 );
 CREATE TABLE comments (
   comment_by BIGINT REFERENCES users(id),
-  post BIGINT REFERENCES tardys(id),
+  tardy BIGINT REFERENCES tardys(id),
   comment VARCHAR(255) NOT NULL
 );

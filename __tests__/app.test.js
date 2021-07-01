@@ -178,10 +178,18 @@ describe('Tardy routes', () => {
 
 });
 
-describe.skip('Comment routes', () => {
+describe('Comment routes', () => {
 
   it('Comments on a tardy via POST', async() => {
+    const res = await agent
+      .post('/api/v1/comments/1')
+      .send('so dope');
 
+    expect(res.body).toEqual({
+      commentBy: '2',
+      tardy:'1',
+      comment: 'so dope'
+    });
   });
 
 });
