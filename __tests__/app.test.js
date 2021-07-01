@@ -3,6 +3,8 @@ import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
+import Comment from '../lib/models/Comment.js';
+
 const agent = request.agent(app);
 
 const usr1 = {
@@ -198,13 +200,11 @@ describe('Comment routes', () => {
   });
 
   it('DELETEs a comment by id', async() => {
-    const comment = await agent
-      .post('/api/v1/comments')
-      .send({
-        tardy: '2',
-        comment: 'not so dope',
-        commentBy: '2'
-      });
+    const comment = await Comment.insert({
+      tardy: '2',
+      comment: 'not so dope',
+      commentBy: '2'
+    });
 
     const res = await agent
       .delete(`/api/v1/comments/${comment.id}`);
