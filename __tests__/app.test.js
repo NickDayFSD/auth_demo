@@ -144,8 +144,9 @@ describe('Tardy routes', () => {
     });
   });
 
-  it.skip('PATCHes a tardy by id', async() => {
-    const firstPost = await agent.get('/api/v1/tardys/1');
+  it('PATCHes a tardy by id', async() => {
+    const postResponse = await agent.get('/api/v1/tardys/1');
+    const firstPost = postResponse.body;
 
     firstPost.caption = 'That caption needed replacing';
 
