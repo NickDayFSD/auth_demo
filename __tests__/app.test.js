@@ -197,4 +197,24 @@ describe('Comment routes', () => {
     });
   });
 
+  it('DELETEs a comment by id', async() => {
+    const comment = await agent
+      .post('/api/v1/comments')
+      .send({
+        tardy: '2',
+        comment: 'not so dope',
+        commentBy: '2'
+      });
+
+    const res = await agent
+      .delete(`/api/v1/comments/${comment.id}`);
+
+    expect(res.body).toEqual({
+      commentBy: '2',
+      tardy:'2',
+      comment: 'not so dope',
+      id: '2'
+    });
+  });
+
 });
