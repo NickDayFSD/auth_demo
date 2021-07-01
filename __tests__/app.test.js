@@ -134,15 +134,29 @@ describe('Tardy routes', () => {
   });
 
   it('GETs a tardy by id', async() => {
+  
+    const comment1 = await Comment.insert({
+      tardy: '1',
+      comment: 'not so dope',
+      commentBy: '2'
+    });
+
+    const comment2 = await Comment.insert({
+      tardy: '1',
+      comment: 'okay it a bit dope',
+      commentBy: '2'
+    });
+
     const res = await agent
       .get('/api/v1/tardys/1');
-
+    
     expect(res.body).toEqual({
       id: '1',
       userId: '2',
       photoUrl: 'http://photo',
       caption: 'Look at my tardy!',
-      tags: ['http', 'url', 'photo']
+      tags: ['http', 'url', 'photo'],
+      comments: [comment1.comment, comment2.comment]
     });
   });
 
@@ -195,7 +209,7 @@ describe('Comment routes', () => {
       commentBy: '2',
       tardy:'2',
       comment: 'so dope',
-      id: '1'
+      id: '3'
     });
   });
 
@@ -213,7 +227,7 @@ describe('Comment routes', () => {
       commentBy: '2',
       tardy:'2',
       comment: 'not so dope',
-      id: '2'
+      id: '4'
     });
   });
 
